@@ -3,11 +3,15 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { ScheduleControlComponent } from './controls/schedule-control/schedule-control.component';
+import { DemoScheduleComponent } from './demo/demo-schedule/demo-schedule.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ScheduleControlComponent,
+    DemoScheduleComponent
   ],
   imports: [
     BrowserModule

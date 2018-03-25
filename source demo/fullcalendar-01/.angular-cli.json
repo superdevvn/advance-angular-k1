@@ -24,6 +24,7 @@
         "../node_modules/ionicons/dist/css/ionicons.min.css",
         "assets/AdminLTE/css/AdminLTE.min.css",
         "assets/AdminLTE/css/skins/_all-skins.min.css",
+        "../node_modules/fullcalendar/dist/fullcalendar.css",
         "styles.css"
       ],
       "scripts": [
