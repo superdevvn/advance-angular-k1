@@ -20,13 +20,33 @@ export class DemoScheduleComponent implements OnInit {
         id: 'aa',
         title: 'Event A',
         start: '2018-03-25T09:00',
-        end: '2018-03-25T12:00'
+        end: '2018-03-25T12:00',
+        items: [{
+          title: 'title A 1',
+          detail: 'detail A 1'
+        },{
+          title: 'title A 2',
+          detail: 'detail A 2'
+        },{
+          title: 'title A 3',
+          detail: 'detail A 3'
+        }]
       },
       {
         id: 'bb',
         title: 'Event B',
         start: '2018-03-25T01:00',
-        end: '2018-03-25T03:00'
+        end: '2018-03-25T03:00',
+        items: [{
+          title: 'title B 1',
+          detail: 'detail B 1'
+        },{
+          title: 'title B 2',
+          detail: 'detail B 2'
+        },{
+          title: 'title B 3',
+          detail: 'detail B 3'
+        }]
       }
     ];
     this.scheduleControl.draw(option);

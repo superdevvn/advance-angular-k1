@@ -13,7 +13,7 @@ import { EventObjectInput } from 'fullcalendar';
 })
 export class ScheduleControlComponent implements OnInit {
   @Output() onClickEvent: EventEmitter<EventObjectInput>;
-
+  option: ScheduleOption;
   control: JQuery<HTMLElement>;
   controlId: string;
 
@@ -34,8 +34,9 @@ export class ScheduleControlComponent implements OnInit {
     $('body').append(this.tooltip);
   }
 
-  draw(option: ScheduleOption){
+  draw(option: ScheduleOption) {
     let that = this;
+    this.option = option;
     this.control.fullCalendar({
       defaultView: 'agendaWeek',
       header: {
@@ -73,19 +74,8 @@ export class ScheduleControlComponent implements OnInit {
         that.tooltipInfo.title = event.title;
         that.tooltipInfo.start = that.momentToString(event.start as Moment);
         that.tooltipInfo.end = that.momentToString(event.end as Moment);
-        that.tooltipInfo.items = [{
-          title:'Title 1',
-          detail: 'Detail 1'
-        },
-        {
-          title:'Title 2',
-          detail: 'Detail 2'
-        },
-        {
-          title:'Title 3',
-          detail: 'Detail 3'
-        }];
-        $(this).mousemove(function(handler){
+        that.tooltipInfo.items = that.option.events.find(e => e.id == event.id).items;
+        $(this).mousemove(function (handler) {
           that.tooltip.css('top', handler.clientY + 10);
           that.tooltip.css('left', handler.clientX - 130);
         });
@@ -98,7 +88,7 @@ export class ScheduleControlComponent implements OnInit {
     });
   }
 
-  momentToString(moment:Moment){
+  momentToString(moment: Moment) {
     return `${moment.hour()}:${moment.minute()}`;
   }
 }
