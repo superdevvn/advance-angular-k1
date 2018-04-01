@@ -12,7 +12,7 @@ import { EventObjectInput } from 'fullcalendar';
   styleUrls: ['./schedule-control.component.css']
 })
 export class ScheduleControlComponent implements OnInit {
-  @Output() onClickEvent: EventEmitter<EventObjectInput>;
+  @Output() onClickEvent: EventEmitter<EventObjectInput> = new EventEmitter();
   option: ScheduleOption;
   control: JQuery<HTMLElement>;
   controlId: string;
