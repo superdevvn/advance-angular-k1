@@ -7,6 +7,7 @@ import { ScheduleControlComponent } from './controls/schedule-control/schedule-c
 import { DemoScheduleComponent } from './demo/demo-schedule/demo-schedule.component';
 import { GridControlComponent } from './controls/grid-control/grid-control.component';
 import { DemoGridComponent } from './demo/demo-grid/demo-grid.component';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DemoGridComponent } from './demo/demo-grid/demo-grid.component';
     DemoGridComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]

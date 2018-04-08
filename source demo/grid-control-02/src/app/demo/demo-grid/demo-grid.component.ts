@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Http, Headers } from '@angular/http';
 import { IGridOption } from '../../controls/grid-control/grid-control.model';
 
 @Component({
@@ -8,17 +9,25 @@ import { IGridOption } from '../../controls/grid-control/grid-control.model';
 })
 export class DemoGridComponent implements OnInit {
   gridOption: IGridOption;
-  constructor() { }
+  constructor(private http: Http) { }
 
   ngOnInit() {
-    this.gridOption = {
-      data: [{ firstName: 'Nghia', lastName: 'Tran', age: '27' },
-      { firstName: 'Anh', lastName: 'Tuan', age: '21' }],
-      commands: [],
-      columns: [{ field: 'firstName', title: 'First Name', width: '100px' },
-      { field: 'lastName', title: 'Last Name', width: '100px' },
-      { field: 'age', title: 'Age', width: '' },]
-    };
+    let headers = new Headers();
+    headers.append('Auth-SuperDev', 'T7g4AXn3TCQL77zI8QDi16sORDXScffXXgnQ/mE5P38CESS5LXagKECtX5xw0cD+');
+    this.http.post('http://103.232.121.69:5203/api/getUsers', {}, { headers: headers })
+      .toPromise()
+      .then(res => {
+        this.gridOption = {
+          data: res.json(),
+          commands: [],
+          columns: [
+            { field: 'FirstName', title: 'First Name', width: '100px' },
+            { field: 'LastName', title: 'Last Name', width: '100px' },
+            { field: 'Username', title: 'Username', width: '' },
+            { field: 'RoleName', title: 'Role Name', width: '100px' },
+            { field: 'IsActived', title: 'IsActived', width: '100px' },
+          ]
+        };
+      });
   }
-
 }

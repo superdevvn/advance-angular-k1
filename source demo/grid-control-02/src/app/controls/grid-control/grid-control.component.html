@@ -1,7 +1,8 @@
 <table class="table table-bordered">
   <colgroup>
     <col style="width:80px">
-    <col *ngFor="let column of option.columns" [ngStyle]="{'width':column.width?column.width:''}">
+    <col *ngFor="let column of option.columns" 
+    [ngStyle]="{'width':column.width?column.width:''}">
   </colgroup>
   <thead>
     <tr>
