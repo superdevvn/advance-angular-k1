@@ -7,7 +7,7 @@ import { IGridOption } from './grid-control.model';
   styleUrls: ['./grid-control.component.css']
 })
 export class GridControlComponent implements OnInit {
-  @Input() option: IGridOption;
+  @Input('abc') option: IGridOption;
   constructor() { }
 
   ngOnInit() {

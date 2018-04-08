@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ScheduleControlComponent } from './controls/schedule-control/schedule-control.component';
@@ -19,6 +19,7 @@ import { HttpModule } from '@angular/http';
     DemoGridComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     HttpModule
   ],

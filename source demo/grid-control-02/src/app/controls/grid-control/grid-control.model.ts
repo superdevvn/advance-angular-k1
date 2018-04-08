@@ -7,6 +7,7 @@ export interface IGridColumn{
     field: string;
     title: string;
     width: string;
+    type: 'string' | 'number' | 'bool' | 'date' | 'datetime'
 }
 
 export interface IGridOption{
