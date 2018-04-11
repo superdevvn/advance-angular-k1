@@ -18,6 +18,7 @@ export class GridControlComponent implements OnInit {
     this.gridOption.data = this.option.data;
     this.gridOption.commands = this.option.commands;
     this.gridOption.columns = this.option.columns;
+    this.reload();
   }
 
   reload() {
@@ -33,5 +34,10 @@ export class GridControlComponent implements OnInit {
         this.gridOption.data = res.json().Entities;
         this.gridOption.pageCount = res.json().PageCount;
       });
+  }
+
+  goToPage(pageNumber: number) {
+    this.gridOption.pageNumber = pageNumber;
+    this.reload();
   }
 }

@@ -31,7 +31,7 @@ export class GridOption implements IGridOption{
     orderDirection: 'ASC' | 'DESC';
     total: number;
     constructor(){
-        this.pageSize = 10;
+        this.pageSize = 2;
         this.pageNumber = 1;
         this.orderBy = 'Id';
         this.orderDirection = 'DESC';
