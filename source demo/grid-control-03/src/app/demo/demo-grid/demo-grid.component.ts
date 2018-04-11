@@ -23,11 +23,11 @@ export class DemoGridComponent implements OnInit {
         { icon: 'fa fa-edit text-primary', click: edit },
         { icon: 'fa fa-trash text-danger', click: this.remove }],
       columns: [
-        { field: 'Code', title: 'First Name', width: '100px', type: 'string' },
-        { field: 'Name', title: 'Last Name', width: '', type: 'string' },
+        { field: 'Code', title: 'Code', width: '100px', type: 'string' },
+        { field: 'Name', title: 'Name', width: '', type: 'string' },
         { field: 'Date', title: 'Date', width: '100px', type: 'datetime' },
-        { field: 'Salary', title: 'Role Name', width: '100px', type: 'string' },
-        { field: 'IsDeleted', title: 'IsActived', width: '100px', type: 'bool', trueValue: 'Deleted', falseValue: 'Actived' }
+        { field: 'Salary', title: 'Salary', width: '100px', type: 'string' },
+        { field: 'IsDeleted', title: 'IsDeleted', width: '100px', type: 'bool', trueValue: 'Deleted', falseValue: 'Actived' }
       ]
     };
 

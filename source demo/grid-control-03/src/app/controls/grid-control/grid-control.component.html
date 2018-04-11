@@ -7,8 +7,17 @@
     <tr>
       <th>
       </th>
-      <th *ngFor="let column of gridOption.columns">{{column.title}}</th>
+      <th *ngFor="let column of gridOption.columns" (click)="sort(column.field)">
+        {{column.title}}
+      </th>
     </tr>
+    <tr>
+        <th>
+        </th>
+        <th *ngFor="let column of gridOption.columns">
+          <input class="form-control" [(ngModel)]="column.filterValue" (change)="reload()">
+        </th>
+      </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of gridOption.data">
@@ -35,28 +44,14 @@
   <div class="col-sm-7">
     <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
       <ul class="pagination">
-        <li class="paginate_button previous disabled" id="example1_previous">
+        <li class="paginate_button previous" (click)="goToPage(gridOption.pageNumber-1)" [ngClass]="{'disabled':gridOption.pageNumber === 1}"
+          id="example1_previous">
           <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a>
         </li>
-        <li class="paginate_button active">
-          <a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" (click)="goToPage(1)">1</a>
+        <li class="paginate_button" [ngClass]="{'active':page === gridOption.pageNumber}" *ngFor="let page of pagingList">
+          <a href="#" aria-controls="example1" (click)="goToPage(page)">{{page}}</a>
         </li>
-        <li class="paginate_button ">
-          <a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0" (click)="goToPage(2)">2</a>
-        </li>
-        <li class="paginate_button ">
-          <a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" (click)="goToPage(3)">3</a>
-        </li>
-        <li class="paginate_button ">
-          <a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0">4</a>
-        </li>
-        <li class="paginate_button ">
-          <a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0">5</a>
-        </li>
-        <li class="paginate_button ">
-          <a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0">6</a>
-        </li>
-        <li class="paginate_button next" id="example1_next">
+        <li class="paginate_button next" id="example1_next" (click)="goToPage(gridOption.pageNumber+1)" [ngClass]="{'disabled':gridOption.pageNumber === pagingList.length}">
           <a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0">Next</a>
         </li>
       </ul>

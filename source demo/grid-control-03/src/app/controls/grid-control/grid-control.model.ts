@@ -7,9 +7,19 @@ export interface IGridColumn {
     field: string;
     title: string;
     width: string;
-    type: 'string' | 'number' | 'bool' | 'date' | 'datetime',
+    type: 'string' | 'number' | 'bool' | 'date' | 'datetime';
     trueValue?: string;
     falseValue?: string;
+}
+
+export class GridColumn implements IGridColumn {
+    field: string;
+    title: string;
+    width: string;
+    type: 'string' | 'number' | 'bool' | 'date' | 'datetime';
+    trueValue?: string;
+    falseValue?: string;
+    filterValue?: string;
 }
 
 export interface IGridOption {
@@ -23,7 +33,7 @@ export class GridOption implements IGridOption{
     url?: string;
     data?: any[] = [];
     commands: IGridCommand[];
-    columns: IGridColumn[] = [];
+    columns: GridColumn[] = [];
     pageSize: number;
     pageNumber: number;
     pageCount: number;
