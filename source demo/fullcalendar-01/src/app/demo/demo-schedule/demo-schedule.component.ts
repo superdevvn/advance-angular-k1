@@ -8,7 +8,8 @@ import { ScheduleOption } from '../../controls/schedule-control/schedule-control
   styleUrls: ['./demo-schedule.component.css']
 })
 export class DemoScheduleComponent implements OnInit {
-  @ViewChild('scheduleControl') scheduleControl: ScheduleControlComponent;
+  @ViewChild('scheduleControl1') scheduleControl1: ScheduleControlComponent;
+  @ViewChild('scheduleControl2') scheduleControl2: ScheduleControlComponent;
   constructor() { }
 
   ngOnInit() {
@@ -49,6 +50,7 @@ export class DemoScheduleComponent implements OnInit {
         }]
       }
     ];
-    this.scheduleControl.draw(option);
+    this.scheduleControl1.draw(option);
+    this.scheduleControl2.draw(option);
   }
 }
