@@ -52,5 +52,12 @@ export class DemoScheduleComponent implements OnInit {
     ];
     this.scheduleControl1.draw(option);
     this.scheduleControl2.draw(option);
+<<<<<<< HEAD
+=======
+  }
+
+  onClick(event){
+    console.log(event);
+>>>>>>> 07fd2c697ab33a8e340de2932abf6e14674048cd
   }
 }
