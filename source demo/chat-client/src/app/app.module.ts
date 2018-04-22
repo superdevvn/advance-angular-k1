@@ -10,6 +10,7 @@ import { DemoGridComponent } from './demo/demo-grid/demo-grid.component';
 import { HttpModule } from '@angular/http';
 import { GoogleMapControlComponent } from './controls/google-map-control/google-map-control.component';
 import { DemoSocketComponent } from './demo/demo-socket/demo-socket.component';
+import { SocketService } from './services/socket.service';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { DemoSocketComponent } from './demo/demo-socket/demo-socket.component';
     BrowserModule,
     HttpModule
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
