@@ -12,4 +12,12 @@
       </span>
     </div>
   </div>
+  <div class="col-md-12">
+    <div class="box-chat" #boxChatRef>
+      <p *ngFor="let data of messages">
+        <span class="user">{{data.username}}</span>
+        <span class="message">{{data.message}}</span>
+      </p>
+    </div>
+  </div>
 </div>
