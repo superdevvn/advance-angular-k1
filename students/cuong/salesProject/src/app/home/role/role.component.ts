@@ -33,7 +33,7 @@ export class RoleComponent implements OnInit {
   save(role) {
     this.loadingService.start();
     this.roleService.saveRole(this.role).then((res: any) => {
-      if (this.id === 0) this.router.navigate(["/main/product", res.Id]);
+      if (this.id === 0) this.router.navigate(["/main/role", res.Id]);
       this.loadingService.stop();
       this.notificationService.success('save success');
     }).catch(err => {

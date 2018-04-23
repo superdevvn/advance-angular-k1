@@ -3,10 +3,12 @@ import { ApiService } from "../api.service";
 import { Router } from "@angular/router";
 import { resolve } from "url";
 import { CookieService } from "ngx-cookie-service";
+import { NotificationService } from "../loadingService/notification.service";
+import { LoadingService } from "../loadingService/loading.service";
 
 @Injectable()
 export class loginService{
-    constructor(private apiService:ApiService, private cookieService:CookieService){ }
+    constructor(private apiService:ApiService, private cookieService:CookieService, private loadingService:LoadingService){ }
     login(username:string, password:string, isRemember:boolean){
         return new Promise((resolve,reject) => {
             this.apiService.post('/api/login',{
@@ -20,6 +22,7 @@ export class loginService{
                 resolve(res.json());
             }).catch(err=>{
                 console.log(err);
+                this.loadingService.stop();
             })
         });
     }

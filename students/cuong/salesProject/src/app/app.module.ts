@@ -53,7 +53,6 @@ const router: Routes = [
       { path: 'user-list', component: UserListComponent },
       { path: 'user-detail/:id', component: userDetailComponent },
       { path: 'order-detail/:id', component: OrderDetailComponent },
-
     ]
   },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },

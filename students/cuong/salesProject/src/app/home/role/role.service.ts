@@ -34,13 +34,13 @@ export class RoleService {
             });
         });
     }
-    // deleteRole(id) {
-    //     return new Promise((resolve, reject) => {
-    //         this.apiService.delete(`/api/deleteRole?id=${id}`).then(() => {
-    //             resolve();
-    //         }).catch(err => {
-    //             reject(err);
-    //         })
-    //     });
-    // }
+    deleteRole(id) {
+        return new Promise((resolve, reject) => {
+            this.apiService.delete(`/api/deleteRole?id=${id}`).then(() => {
+                resolve();
+            }).catch(err => {
+                reject(err);
+            })
+        });
+    }
 }

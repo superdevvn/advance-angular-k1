@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { delay } from "q";
+
 declare var $: any;
 @Injectable()
-export class LoadingService{
-    constructor(){}
-    start(){
+export class LoadingService {
+    constructor() { }
+    start() {
         $('body').append(`<any id="globalloading"
         style="top:0;
         left:0;
@@ -18,9 +19,10 @@ export class LoadingService{
         background-repeat: no-repeat;
         background-image: url(./../../../assets/photo/loading.gif);
         "></any>`);
+ 
     }
-    stop(){
+    stop() {
         $('#globalloading').remove();
     }
-     
+
 }

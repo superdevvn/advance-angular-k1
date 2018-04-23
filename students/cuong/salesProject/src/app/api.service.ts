@@ -7,8 +7,8 @@ import { LoadingService } from './loadingService/loading.service';
 
 @Injectable()
 export class ApiService {
-  //  host: string = 'http://103.232.121.69:5202';
-   host: string = 'http://localhost:8245';
+ //    host: string = 'http://103.232.121.69:5202';
+ host: string = 'http://localhost:8245';
     token: string = "none";
     constructor(private router: Router, private http: Http, private cookieService: CookieService, private loadingService:LoadingService) {
         this.token = this.cookieService.check('Auth') ? this.cookieService.get('Auth') : 'none';

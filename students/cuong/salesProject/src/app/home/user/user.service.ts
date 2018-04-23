@@ -39,13 +39,14 @@ export class UserService {
             });
         });
     }
-    // deletecustomer(id) {
-    //     return new Promise((resolve, reject) => {
-    //         this.apiService.delete(`/api/deleteCustomer?id=${id}`).then(() => {
-    //             resolve();
-    //         }).catch(err => {
-    //             reject(err);
-    //         })
-    //     });
-    // }
+    deleteUser(id) {
+        return new Promise((resolve, reject) => {
+            this.apiService.delete(`/api/deleteUser?id=${id}`).then(() => {
+                resolve();
+            }).catch(err => {
+                reject(err);
+            })
+        });
+    }
+   
 }
