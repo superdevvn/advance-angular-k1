@@ -1,0 +1,30 @@
+<div id="{{controlId}}" class="schedule-control"></div>
+
+<div id="{{tooltipId}}" class="schedule-tooltip">
+  <div class="header">
+    {{tooltipInfo.title}}
+  </div>
+
+  <div class="pull-right">
+    Start: {{tooltipInfo.start}} End:{{tooltipInfo.end}}
+  </div>
+
+  <div class="body">
+    <div *ngFor="let item of tooltipInfo.items">
+      <div class="col-sm-12">
+        <span class="title">{{item.title}}</span>
+        <span class="detail">{{item.detail}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="col-sm-12">
+    <span class="title">Title 2</span>
+    <span class="detail">Detail 2</span>
+  </div>
+
+  <div class="col-sm-12">
+    <span class="title">Title 3</span>
+    <span class="detail">Detail 3</span>
+  </div> -->
+</div>

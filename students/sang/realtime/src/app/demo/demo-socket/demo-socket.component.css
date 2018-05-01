@@ -1,0 +1,16 @@
+.box-chat{
+    height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
+    border: 5px solid red;
+    overflow-y: scroll;
+}
+
+.user{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.message{
+    font-weight: lighter;
+    text-transform: lowercase;
+}
