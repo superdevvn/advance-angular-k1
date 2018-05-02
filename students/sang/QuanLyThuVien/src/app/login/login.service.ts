@@ -5,13 +5,31 @@ import { Headers, Response } from "@angular/http";
 import { ApiService } from '../services/api.service';
 import { CookieService } from "ngx-cookie-service"
 import { NotificationService } from '../services/notification.service';
+import { SocketService, SocketData } from '../services/socket.service';
+import * as uuid from 'uuid';
 @Injectable()
 export class LoginService {
-    user: any={};
-    tempUser: string;
+    private session = uuid.v4();
+    user: any = {};
     constructor(private apiService: ApiService, private cookieService: CookieService,
-         private router: Router, private notificationService: NotificationService) {
-
+        private router: Router,
+        private notificationService: NotificationService,
+        private socketService: SocketService) {
+            // if(sessionStorage.getItem('session')){
+            //     this.session = sessionStorage.getItem('session');
+            // }
+            // else{
+            //     sessionStorage.setItem('session',this.session);
+            // }
+            this.socketService.emitter.subscribe((socketData: SocketData)=>{
+                if(socketData.code === 'LOGIN'){
+                    if(socketData.data.session !== this.session && socketData.data.username === this.user.Username)
+                    {
+                        this.notificationService.warning('This account has been logged in another computer')
+                        this.logout();
+                    }
+                }
+            })
     }
     //auth-superdev
     login(username: string, password: string) {
@@ -23,8 +41,14 @@ export class LoginService {
                 this.apiService.token = res.json();
                 this.cookieService.set('auth-superdev', this.apiService.token);
                 this.notificationService.success("Log in successful");
+                this.socketService.send({
+                    code:'LOGIN',
+                    data:{
+                        session: this.session,
+                        username: username
+                    }
+                })
                 resolve(res.json());
-                this.tempUser = this.user;
             }).catch(err => {
                 this.notificationService.warning("Wrong username or password");
                 console.log(err)
@@ -47,10 +71,10 @@ export class LoginService {
         this.cookieService.delete('auth-superdev');
         this.apiService.token = "none";
         this.router.navigate(["/login"]);
-    }   
+    }
 
-    getUser(){
-        return this.tempUser;
+    getUser() {
+        return this.user;
     }
 
 
