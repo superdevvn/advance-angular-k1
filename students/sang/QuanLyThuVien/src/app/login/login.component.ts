@@ -18,11 +18,11 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,private loginService:LoginService,
   private cookieService: CookieService, private notificationService: NotificationService,
 private socketService: SocketService ) {
-  this.socketService.emitter.subscribe((socketData: SocketData)=>{
-    if(socketData.code=="Login"){
+  // this.socketService.emitter.subscribe((socketData: SocketData)=>{
+  //   if(socketData.code=="Login"){
       // this.users.push(socketData.data)
-    }
-  })
+    // }
+  // })
  }
 
   ngOnInit() {

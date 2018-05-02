@@ -3,6 +3,7 @@ import { RoleService } from './role.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { ApiService } from '../services/api.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'role-detail',
@@ -17,7 +18,8 @@ export class RoleDetailComponent implements OnInit {
   id: number;
   titles:String='';
   constructor(private roleService:RoleService, private route:ActivatedRoute, private router: Router,
-     private notification: NotificationService, private apiService:ApiService) { }
+     private notification: NotificationService, private apiService:ApiService,
+    private socketService: SocketService) { }
 
   ngOnInit() {
 this.routerSubscription = this.route.params.subscribe(params=>{
@@ -38,6 +40,9 @@ else this.titles="You are creating a new role";
 save(){
   this.roleService.saveRole(this.role).then((res:any)=>{
     if(this.id ===0) this.router.navigate(["/main/role-detail",res.Id]);
+    this.socketService.send({
+      code: 'change'
+    })
     this.notification.info('Saved');
     this.router.navigate(["/main/role-list"]);
   })
