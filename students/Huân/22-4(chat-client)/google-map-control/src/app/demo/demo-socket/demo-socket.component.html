@@ -1,0 +1,23 @@
+<div class="cod-md-12">
+  <div class="col-md-6">
+    <strong class="text-primary">Username</strong>
+    <input type="text" [(ngModel)]="username">
+
+  </div>
+  <div class="col-md-6">
+    <input type="text" [(ngModel)]="message">
+    <button class="btn btn success" (click)="send()">Send</button>
+  </div>
+  <div class="col-md-12">
+    <div class="box-chat" #boxChatRef>
+      <p *ngFor="let data of messages">
+        <span class="user">
+          {{data.username}}
+        </span>
+        <span class="message">
+          {{data.message}}
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
