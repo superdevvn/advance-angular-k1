@@ -15,7 +15,7 @@ roles: any[];
   private apiService:ApiService, private Notification:NotificationService,
 private socketService: SocketService) {
   this.socketService.emitter.subscribe((socketData: SocketData)=>{
-      if(socketData.code ==='change'){
+      if(socketData.code ==='ROLE_CHANGE' || socketData.code ==='ROLE_CREATE' || socketData.code==='ROLE_DELETE'){
         this.roleService.getRoles().then((roles: any)=>{
           this.roles = roles;
         })
@@ -45,11 +45,15 @@ private socketService: SocketService) {
 
     delete(role) {
       this.roleService.deleteRole(role.Id).then(() => {
+        this.socketService.send({
+          code:'ROLE_DELETE'
+        })
         this.roleService.getRoles().then((roles: any[]) => {
           this.roles = roles;
         });
+        this.Notification.danger('Deleted');
       });
-      this.Notification.danger('Deleted');
+      
     }
 
     

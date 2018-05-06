@@ -4,6 +4,7 @@ import {Router} from "@angular/router"
 import { LoadingService } from '../services/loading.service';
 import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
+import { SocketService, SocketData } from '../services/socket.service';
 @Component({
   selector: 'sach-list',
   templateUrl: './sach-list.component.html'
@@ -11,7 +12,16 @@ import { NotificationService } from '../services/notification.service';
 export class SachListComponent implements OnInit {
 books: any[];
   constructor(private sachService: SachService, private router:Router, private loadingService: LoadingService,
-  private apiService:ApiService, private Notification:NotificationService) { }
+  private apiService:ApiService, private Notification:NotificationService,
+  private socketService: SocketService) { 
+    this.socketService.emitter.subscribe((socketData: SocketData)=>{
+      if(socketData.code == 'BOOK_UPDATE' || socketData.code =='BOOK_CREATE' || socketData.code == 'BOOK_DELETE'){
+        this.sachService.getBooks().then((books: any)=>{
+          this.books = books;
+        })
+      }
+    })
+  }
 
   ngOnInit() {
     this.sachService.getBooks().then((book:any[])=>{
@@ -34,6 +44,9 @@ books: any[];
 
     delete(book) {
       this.sachService.deleteRole(book.Id).then(() => {
+        this.socketService.send({
+          code:'BOOK_DELETE'
+        })
         this.sachService.getBooks().then((books: any[]) => {
           this.books = book;
         });

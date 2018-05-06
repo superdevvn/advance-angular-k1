@@ -6,6 +6,7 @@ import { BookingService } from './booking.service';
 import { CustomerService } from '../customer/customer.service';
 import { UserService } from '../user/user.service';
 import { SachService } from '../sach/sach.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'booking-detail',
@@ -25,7 +26,9 @@ export class BookingDetailComponent implements OnInit {
   constructor(private bookingService: BookingService, private route: ActivatedRoute, private router: Router,
     private notification: NotificationService, private apiService: ApiService,
     private customerService: CustomerService,private bookService : SachService,
-  private userService: UserService) { }
+    private userService: UserService, private socketService: SocketService) { 
+    
+    }
 
   ngOnInit() {
     this.routerSubscription = this.route.params.subscribe(params => {
@@ -70,9 +73,22 @@ export class BookingDetailComponent implements OnInit {
 
   save() {
     this.bookingService.saveInOut(this.inOut).then((res: any) => {
-      if (this.id === 0) this.router.navigate(["/main/booking-detail", res.Id]);
-      this.notification.info("Saved");
-      this.router.navigate(["/main/booking-list"]);
+      if (this.id === 0)
+      {
+        this.socketService.send({
+          code:'BOOKING_CREATE'
+        })
+        this.router.navigate(["/main/booking-detail", res.Id]);
+        this.notification.success("Created");
+      } 
+      else{
+        this.socketService.send({
+          code:'BOOKING_CHANGE'
+        })
+        this.router.navigate(["/main/booking-list"]);
+        this.notification.info('Updated')
+      }
+      
     })
   }
 

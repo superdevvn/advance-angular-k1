@@ -7,6 +7,7 @@ import { NotificationService } from '../services/notification.service';
 import { CustomerService } from './customer.service';
 import { iGridOption } from '../control/grid-control/grid-control.model';
 import { Http } from '@angular/http';
+import { SocketService, SocketData } from '../services/socket.service';
 @Component({
   selector: 'customer-list',
   templateUrl: './customer-list.component.html'
@@ -16,7 +17,16 @@ customers: any[];
 gridOption: iGridOption
   constructor(private customerService: CustomerService, private router:Router,
      private loadingService: LoadingService, private http:Http,
-  private apiService:ApiService, private Notification:NotificationService) { }
+  private apiService:ApiService, private Notification:NotificationService,
+private socketService: SocketService) {
+    socketService.emitter.subscribe((socketData: SocketData)=>{
+      if(socketData.code =='CUSTOMER_CREATE' || socketData.code =='CUSTOMER_CHANGE' || socketData.code =='DELETE'){
+        this.customerService.getCustomers().then((customers: any)=>{
+          this.customers = customers;
+        })
+      }
+    })
+ }
 
   ngOnInit() {
     this.customerService.getCustomers().then((customer:any[])=>{
@@ -28,18 +38,18 @@ gridOption: iGridOption
       this.loadingService.stop();
     })
 
-    this.gridOption = {
-      url: 'http://103.232.121.69:5201/api/getCustomers/',
-      commands: [
-        { icon: 'fa fa-edit text-primary', click: this.detail },
-        { icon: 'fa fa-trash text-danger', click: this.delete }],
-      columns: [
-        { field: 'Code', title: 'Code', width: '100px', type: 'string' },
-        { field: 'First Name', title: 'First Name', width: '', type: 'string' },
-        { field: 'Last Name', title: 'Last Name', width: '100px', type: 'string' },
-        { field: 'Description', title: 'Description ', width: '100px', type: 'string' },
-      ]
-    }
+    // this.gridOption = {
+    //   url: 'http://103.232.121.69:5201/api/getCustomers/',
+    //   commands: [
+    //     { icon: 'fa fa-edit text-primary', click: this.detail },
+    //     { icon: 'fa fa-trash text-danger', click: this.delete }],
+    //   columns: [
+    //     { field: 'Code', title: 'Code', width: '100px', type: 'string' },
+    //     { field: 'First Name', title: 'First Name', width: '', type: 'string' },
+    //     { field: 'Last Name', title: 'Last Name', width: '100px', type: 'string' },
+    //     { field: 'Description', title: 'Description ', width: '100px', type: 'string' },
+    //   ]
+    // }
     }
 
     detail(customer){
@@ -52,6 +62,9 @@ gridOption: iGridOption
 
     delete(customer) {
       this.customerService.deleteRole(customer.Id).then(() => {
+        this.socketService.send({
+          code:'DELETE'
+        })
         this.customerService.getCustomers().then((customers: any[]) => {
           this.customers = customer;
         });

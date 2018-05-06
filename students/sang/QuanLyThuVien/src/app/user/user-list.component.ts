@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingService } from '../services/loading.service';
 import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
+import { SocketService, SocketData } from '../services/socket.service';
 
 @Component({
   selector: 'user-list',
@@ -12,7 +13,16 @@ import { NotificationService } from '../services/notification.service';
 export class UserListComponent implements OnInit {
 users: any[];
 constructor(private userService: UserService, private router:Router, private loadingService: LoadingService,
-  private apiService:ApiService, private Notification:NotificationService) { }
+  private apiService:ApiService, private Notification:NotificationService,
+  private socketService: SocketService) { 
+    this.socketService.emitter.subscribe((socketData: SocketData)=>{
+      if(socketData.code ==='USER_CHANGE' || socketData.code ==='USER_CREATE' || socketData.code ==='USER_DELETE'){
+        this.userService.getUsers().then((users: any)=>{
+          this.users = users
+        })
+      }
+    })
+  }
 
   ngOnInit() {
     this.userService.getUsers().then((users:any[])=>{
@@ -35,12 +45,13 @@ constructor(private userService: UserService, private router:Router, private loa
 
     delete(user) {
       this.userService.deleteUser(user.Id).then(() => {
+        this.socketService.send({
+          code:'USER_DELETE'
+        })
         this.userService.getUsers().then((users: any[]) => {
           this.users = users;
         });
       });
-      debugger;
       this.Notification.danger('Deleted');
     }
-
   }

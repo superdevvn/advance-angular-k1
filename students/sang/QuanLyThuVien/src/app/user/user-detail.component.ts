@@ -4,6 +4,7 @@ import { NotificationService } from '../services/notification.service';
 import { ApiService } from '../services/api.service';
 import { UserService } from './user.service';
 import { RoleService } from '../role/role.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'user-detail',
@@ -19,7 +20,9 @@ export class UserDetailComponent implements OnInit {
   users: any[];
   title: string='';
   constructor(private userService:UserService, private route:ActivatedRoute, private router: Router,
-     private notification: NotificationService, private apiService:ApiService,private roleService: RoleService) { }
+     private notification: NotificationService,
+      private apiService:ApiService,private roleService: RoleService,
+    private socketService: SocketService) { }
 
   ngOnInit() {
 this.routerSubscription = this.route.params.subscribe(params=>{
@@ -49,10 +52,21 @@ this.userService.getUsers().then((users: any) => {
 
 save(){
   this.userService.saveUser(this.user).then((res:any)=>{
-    if(this.id ===0) this.router.navigate(["/main/user-detail",res.Id]);
-    debugger
-    this.notification.info('Saved');
-    this.router.navigate(["/main/user-list"]);
+    if(this.id ===0)
+    {
+      this.socketService.send({
+        code:'USER_CREATE'
+      })
+      this.router.navigate(["/main/user-detail",res.Id]);
+    }
+    else{
+      this.socketService.send({
+        code:'USER_CHANGE'
+      })
+      this.notification.info('Saved');
+      this.router.navigate(["/main/user-list"]);
+    }
+    
   })
 }
 

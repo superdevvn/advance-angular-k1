@@ -1,9 +1,11 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import * as io from 'socket.io-client';
+import { emit } from 'cluster';
 
 
 @Injectable()
 export class SocketService{
+    subscribe: any;
     emitter: EventEmitter<any> = new EventEmitter();
     socket: any;
     constructor(){
@@ -18,12 +20,16 @@ export class SocketService{
             this.emitter.emit(data);
         })
         // this.emitter.emit();
+        this.subscribe = this.emitter.subscribe;
     }
     send(data: SocketData){
         this.socket.emit('superdev',data)
     }
+
+    
 }
 
 export class SocketData{
     code: string;
+    data?: any;
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { ApiService } from '../services/api.service';
 import { CategoryService } from './cate.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'category-detail',
@@ -17,7 +18,9 @@ export class CategoryDetailComponent implements OnInit {
   id: number;
   title:String='';
   constructor(private categoryService:CategoryService, private route:ActivatedRoute, private router: Router,
-     private notification: NotificationService, private apiService:ApiService) { }
+     private notification: NotificationService, private apiService:ApiService,
+     private socketService: SocketService) {
+      }
 
   ngOnInit() {
 this.routerSubscription = this.route.params.subscribe(params=>{
@@ -37,9 +40,22 @@ else this.title="You are creating a new category";
 
 save(){
   this.categoryService.saveCategory(this.role).then((res:any)=>{
-    if(this.id ===0) this.router.navigate(["/main/role-detail",res.Id]);
-    this.notification.info('Saved');
-    this.router.navigate(["/main/category-list"]);
+    if(this.id ===0) 
+    {
+      this.socketService.send({
+        code:'CATE_CREATE'
+      })
+      this.router.navigate(["/main/role-detail",res.Id]);
+      this.notification.success('Created');
+    }
+    else{
+      this.socketService.send({
+        code:'CATE_CHANGE'
+      })
+      this.router.navigate(["/main/category-list"]);
+      this.notification.info('Updated')
+    }
+    
   })
 }
 back(){
