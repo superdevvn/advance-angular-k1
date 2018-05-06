@@ -38,6 +38,7 @@ import { BookingService } from './booking/booking.service';
 import { BookingDetailReturn } from './booking/booking-detail-return.component';
 import { GridControlComponent } from './control/grid-control/grid-control.component';
 import { SocketService } from './services/socket.service';
+import { ExcelService } from './services/excel.service';
 
 
 
@@ -98,7 +99,7 @@ const routes: Routes =[
     HttpModule,
     FormsModule
   ],
-  providers: [UtilityService,ApiService,LoginService,RoleService,UserService,CookieService,
+  providers: [ExcelService, UtilityService,ApiService,LoginService,RoleService,UserService,CookieService,
     NotificationService,LoadingService,SachService,CustomerService,CategoryService,BookingService,SocketService],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ import { LoadingService } from '../services/loading.service';
 import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
 import { SocketService, SocketData } from '../services/socket.service';
+import { ExcelService } from '../services/excel.service';
 @Component({
   selector: 'role-list',
   templateUrl: './role-list.component.html'
@@ -13,7 +14,8 @@ export class RoleListComponent implements OnInit {
   roles: any[];
   constructor(private roleService: RoleService, private router: Router, private loadingService: LoadingService,
     private apiService: ApiService, private notification: NotificationService,
-    private socketService: SocketService) {
+    private socketService: SocketService,
+    private excelService: ExcelService) {
     this.socketService.emitter.subscribe((socketData: SocketData) => {
       if (socketData.code === 'ROLE_CREATE' || socketData.code === 'ROLE_UPDATE' || socketData.code === 'ROLE_DELETE') {
         this.roleService.getRoles().then((roles: any) => {
@@ -52,6 +54,20 @@ export class RoleListComponent implements OnInit {
         this.roles = roles;
       });
       this.notification.danger('Deleted');
+    });
+  }
+
+  importExcel(){
+    this.excelService.import().then(items=>{
+      console.log(items);
+    });
+  }
+
+  exportExcel(){
+    this.excelService.export({
+      data: this.roles,
+      sheetName: 'Peter',
+      fileName: 'SuperDev'
     });
   }
 }
