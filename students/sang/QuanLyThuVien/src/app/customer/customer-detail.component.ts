@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { ApiService } from '../services/api.service';
 import { CustomerService } from './customer.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'customer-detail',
@@ -17,7 +18,8 @@ export class CustomerDetailComponent implements OnInit {
   id: number;
   title:String='';
   constructor(private customerService:CustomerService, private route:ActivatedRoute, private router: Router,
-     private notification: NotificationService, private apiService:ApiService) { }
+     private notification: NotificationService, private apiService:ApiService,
+     private socketService: SocketService) { }
 
   ngOnInit() {
 this.routerSubscription = this.route.params.subscribe(params=>{
@@ -37,9 +39,22 @@ else this.title="You are creating a new customer";
 
 save(){
   this.customerService.saveCustomer(this.customer).then((res:any)=>{
-    if(this.id ===0) this.router.navigate(["/main/customer-detail",res.Id]);
-    this.notification.info('Saved');
-    this.router.navigate(["/main/customer-list"]);
+    if(this.id ===0)
+    {
+      this.socketService.send({
+        code:'CUSTOMER_CREATE'
+      })
+      this.router.navigate(["/main/customer-detail",res.Id]);
+      this.notification.success('Created');
+    } 
+    else{
+      this.socketService.send({
+        code:'CUSTOMER_CHANGE'
+      })
+      this.router.navigate(["/main/customer-list"]);
+      this.notification.info('Saved');
+    }
+    
   })
 }
 

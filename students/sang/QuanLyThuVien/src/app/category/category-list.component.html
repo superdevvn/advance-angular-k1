@@ -36,23 +36,23 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let role of roles, let idx=index">
+              <tr *ngFor="let cate of cates, let idx=index">
                 <td class="text-center">
                   {{idx+1}}
                 </td>
                 
-                <td>{{role.Name}}</td>
-                <td>{{role.Description}}</td>
+                <td>{{cate.Name}}</td>
+                <td>{{cate.Description}}</td>
                 <td>
                   <div class="text-center">
                     <div class="hidden-sm hidden-xs btn-group">
 
 
-                      <button class="btn btn-xs btn-info" (click)="detail(role)">
+                      <button class="btn btn-xs btn-info" (click)="detail(cate)">
                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                       </button>
 
-                      <button class="btn btn-xs btn-danger" (click)="delete(role)">
+                      <button class="btn btn-xs btn-danger" (click)="delete(cate)">
                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                       </button>
                     </div>

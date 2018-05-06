@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { ApiService } from '../services/api.service';
 import { CategoryService } from '../category/cate.service';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'sach-detail',
@@ -21,7 +22,7 @@ export class SachDetailComponent implements OnInit {
   title: String='';
   constructor(private sachService:SachService, private route:ActivatedRoute, private router: Router,
      private notification: NotificationService, private apiService:ApiService,
-    private categoryService: CategoryService) { }
+    private categoryService: CategoryService, private socketService: SocketService) { }
 
   ngOnInit() {
 this.routerSubscription = this.route.params.subscribe(params=>{
@@ -50,9 +51,21 @@ this.routerSubscription = this.route.params.subscribe(params=>{
 
 save(){
   this.sachService.saveBook(this.book).then((res:any)=>{
-    if(this.id ===0) this.router.navigate(["/main/sach-detail",res.Id]);
-    this.notification.info('Saved');
-    this.router.navigate(["/main/sach-list"]);
+    if(this.id ===0){
+      this.socketService.send({
+        code:'BOOK_CREATE'
+      })
+      this.router.navigate(["/main/sach-detail",res.Id]);
+      this.notification.success('Created');
+    } 
+    else{
+      this.socketService.send({
+        code:'BOOK_CHANGE'
+      })
+      this.router.navigate(["/main/sach-list"]);
+      this.notification.info('Updated');
+    }
+    
   })
 }
 

@@ -6,6 +6,7 @@ import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
 import { BookingService } from './booking.service';
 import { DatePipe } from '@angular/common';
+import { SocketService, SocketData } from '../services/socket.service';
 @Component({
   selector: 'booking-list',
   templateUrl: './booking-list.component.html'
@@ -15,7 +16,15 @@ inOuts: any={};
 id: number;
   constructor(private bookingService: BookingService, private router:Router, private loadingService: LoadingService,
   private apiService:ApiService, private Notification:NotificationService,
-private notification: NotificationService) { }
+  private notification: NotificationService, private socketService: SocketService) {
+    this.socketService.emitter.subscribe((socketData: SocketData)=>{
+      if(socketData.code =='BOOKNG_CHANGE' || socketData.code =='BOOKING_CREATE' || socketData.code =='DELETE'){
+        this.bookingService.getInOuts().then((inouts: any)=>{
+          this.inOuts = inouts;
+        })
+      }
+    })
+   }
 
   ngOnInit() {
     this.bookingService.getInOuts().then((inOut:any[])=>{
@@ -39,6 +48,9 @@ private notification: NotificationService) { }
 
     delete(inOut) {
       this.bookingService.deleteRole(inOut.Id).then(() => {
+        this.socketService.send({
+          code:'DELETE'
+        })
         this.bookingService.getInOuts().then((inOut: any[]) => {
           this.inOuts = inOut;
         });

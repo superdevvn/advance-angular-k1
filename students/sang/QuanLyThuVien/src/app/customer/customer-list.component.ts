@@ -7,7 +7,7 @@ import { NotificationService } from '../services/notification.service';
 import { CustomerService } from './customer.service';
 import { iGridOption } from '../control/grid-control/grid-control.model';
 import { Http } from '@angular/http';
-import { SocketService } from '../services/socket.service';
+import { SocketService, SocketData } from '../services/socket.service';
 @Component({
   selector: 'customer-list',
   templateUrl: './customer-list.component.html'
@@ -18,7 +18,15 @@ gridOption: iGridOption
   constructor(private customerService: CustomerService, private router:Router,
      private loadingService: LoadingService, private http:Http,
   private apiService:ApiService, private Notification:NotificationService,
-private socketService: SocketService) { }
+private socketService: SocketService) {
+    socketService.emitter.subscribe((socketData: SocketData)=>{
+      if(socketData.code =='CUSTOMER_CREATE' || socketData.code =='CUSTOMER_CHANGE' || socketData.code =='DELETE'){
+        this.customerService.getCustomers().then((customers: any)=>{
+          this.customers = customers;
+        })
+      }
+    })
+ }
 
   ngOnInit() {
     this.customerService.getCustomers().then((customer:any[])=>{
@@ -54,6 +62,9 @@ private socketService: SocketService) { }
 
     delete(customer) {
       this.customerService.deleteRole(customer.Id).then(() => {
+        this.socketService.send({
+          code:'DELETE'
+        })
         this.customerService.getCustomers().then((customers: any[]) => {
           this.customers = customer;
         });
