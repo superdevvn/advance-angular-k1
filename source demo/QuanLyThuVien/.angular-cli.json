@@ -42,8 +42,8 @@
         "assets/ace-master/js/jquery.flot.pie.min.js",
         "assets/ace-master/js/jquery.flot.resize.min.js",
         "assets/ace-master/js/ace-elements.min.js",
-        "assets/ace-master/js/ace.min.js"
-
+        "assets/ace-master/js/ace.min.js",
+        "../node_modules/xlsx-style/dist/xlsx.core.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as XLSX from 'xlsx';
+import {} from 'xlsx-style';
 import { saveAs } from 'file-saver';
 
 import * as uuid from 'uuid';
@@ -60,8 +61,10 @@ export class ExcelService {
     /* Set style header */
     let firstSheetName = workbook.SheetNames[0];
     let firstSheet = workbook.Sheets[firstSheetName];
-    //let cell = firstSheet['A1'];
-    //cell.s = { fill: { fgColor: { rgb: "86BC25" } } };
+    let cell = firstSheet['A1'];
+    debugger
+    //cell.s = { fill: { bgColor: { rgb: "86BC25" } } };
+    cell.s = { font: { sz: 30 } };
     // console.log(cell);
 
     let wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
