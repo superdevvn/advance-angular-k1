@@ -11,6 +11,10 @@ import { HttpModule } from '@angular/http';
 import { GoogleMapControlComponent } from './controls/google-map-control/google-map-control.component';
 import { DemoSocketComponent } from './demo/demo-socket/demo-socket.component';
 import { SocketService } from './services/socket.service';
+import { DjService } from './services/dj.service';
+import { Dj1Service } from './services/dj1.service';
+import { Dj2Service } from './services/dj2.service';
+import { Dj3Service } from './services/dj3.service';
 
 
 @NgModule({
@@ -28,7 +32,10 @@ import { SocketService } from './services/socket.service';
     BrowserModule,
     HttpModule
   ],
-  providers: [SocketService],
+  providers: [
+    SocketService,
+    { provide: DjService, useClass: Dj3Service }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
